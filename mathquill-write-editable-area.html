@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mathquill write into editable area</title>
+
+<link href="http://mathquill.com/mathquill/mathquill.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="mathquill-embedded-latex math" style="background: #eee;padding:20px;">x = \editable{}</div>
+<br>
+<button class="command">Write "y" into editor (mouseover)</button>
+
+<h2>Steps to reproduce</h2>
+<ul>
+<li>Click inside the editable area (box to the right of <code>x =</code>) to focus.</li>
+<li>Mouse over the button to call <code>mathquill('write', 'y')</code> on editor.</li>
+</ul>
+
+<h2>Expected result</h2>
+<ul>
+<li>Symbol <code>y</code> is written at the cursor position inside focused editable area.</li>
+</ul>
+
+<h2>Actual result</h2>
+<ul>
+<li>Symbol <code>y</code> is written outside the focused editable area, away from the cursor.</li>
+</ul>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://mathquill.com/mathquill/mathquill.js"></script>
+<script>
+
+$('.command').on('mouseover', function () {
+    $('.math').mathquill('write', 'y');
+});
+
+</script>
+</body>
+</html>
