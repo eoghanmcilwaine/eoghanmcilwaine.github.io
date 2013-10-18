@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>altKey example</title>
+
+<script type="text/javascript">
+
+function showChar(e){
+  alert(
+    "Key Pressed: " + String.fromCharCode(e.charCode) + "\n"
+    + "charCode: " + e.charCode + "\n"
+    + "ALT key pressed: " + e.altKey + "\n"
+  );
+}
+
+</script>
+</head>
+
+<body id="bd">
+
+<h1>event.altKey incorrect value on keypress</h1>
+
+<div style="padding:20px;background:#bce;">
+	<h2>Test Area</h2>
+	<span id="focusable-span" tabindex="1">Focusable span</span>
+	<input id="text-input" value="text input field">
+	<textarea id="textarea-input">textarea</textarea>
+</div>
+
+<h2>Steps to reproduce</h2>
+<ul>
+	<li>Focus the text input field or the textarea (via click or tab).</li>
+	<li>Press a key combination that includes ALT, e.g. ALT-x<br>
+	<em>showChar function is called on keypress, displaying the value of event.altKey</em></li>
+</ul>
+
+<h2>Expected behaviour</h2>
+<ul>
+	<li>event.altKey value will be TRUE when ALT was pressed.</li>
+</ul>
+
+<h2>Observed behaviour (Firefox 24)</h2>
+<ul>
+	<li>event.altKey value is reported as FALSE even when ALT was pressed.</li>
+</ul>
+
+<h2>Notes</h2>
+<ul>
+	<li>The expected behaviour is observed on the focusable span.</li>
+</ul>
+
+</body>
+<script>
+
+document.getElementById('focusable-span').addEventListener('keypress', showChar, false);
+document.getElementById('text-input').addEventListener('keypress', showChar, false);
+document.getElementById('textarea-input').addEventListener('keypress', showChar, false);
+
+</script>
+</html>
