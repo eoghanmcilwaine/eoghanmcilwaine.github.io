@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mathquill IE8 indexOf bugfix</title>
+
+<link href="css/mathquill.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="mathquill-editable math" style="background: #eee;padding:20px;">a = 2</div>
+<br>
+<button class="command">Write "y" into editor (mouseover)</button>
+
+<h2>Steps to verify fix (in Internet Explorer 8)</h2>
+<ul>
+<li>Enter "x" (or any other character) into the editor</li>
+<li>Press "/" to add a new fraction</li>
+</ul>
+
+<p>
+	Prior to this fix, a js error was thrown and the fraction did not appear.
+</p>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="js/mathquill.js"></script>
+
+</body>
+</html>
