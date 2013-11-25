@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mathquill dollar sign</title>
+
+<link href="http://mathquill.com/mathquill/mathquill.css" rel="stylesheet">
+<style type="text/css">
+
+iframe { border:0;outline:0; }
+fieldset.version { display:inline-block;height:5em;width:8em; }
+
+</style>
+</head>
+<body>
+
+<h2>Cannot enter dollar sign in mathquill-editable where jQuery >= 1.9</h2>
+
+<p>Try entering a dollar sign in each of the two iframes.</p>
+<p>This is possible in iframe A by entering "\$" or two presses of "$". It does not work in iframe B.</p>
+
+<fieldset class="version">
+<legend>A: Mathquill editable with jQuery v1.8.3</legend>
+<iframe src="mathquill/jquery-versions/1.8.3.html"></iframe>
+</fieldset>
+
+<fieldset class="version">
+<legend>B: Mathquill editable with jQuery v1.9.0</legend>
+<iframe src="mathquill/jquery-versions/1.9.0.html"></iframe>
+</fieldset>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script src="http://mathquill.com/mathquill/mathquill.js"></script>
+</body>
+</html>
