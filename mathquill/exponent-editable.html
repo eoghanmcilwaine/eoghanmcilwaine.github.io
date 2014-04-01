@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mathquill bug: Missing jQ element in PlusMinus</title>
+
+<link href="http://mathquill.com/mathquill/mathquill.css" rel="stylesheet">
+<!-- <link href="../css/mathquill.css" rel="stylesheet"> -->
+<style>
+	.mathquill-embedded-latex { background:#ccc;padding:10px; }
+</style>
+</head>
+<body>
+
+<h2>Mathquill bug: Missing jQ element in PlusMinus</h2>
+
+<div class="mathquill-embedded-latex">x^\editable{}+1</div>
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="http://mathquill.com/mathquill/mathquill.js"></script>
+<!-- <script src="../js/mathquill.js"></script> -->
+
+<script>
+
+$(function () {
+	$('.mathquill-embedded-latex').mathquill('editable');
+});
+
+</script>
+</body>
+</html>
