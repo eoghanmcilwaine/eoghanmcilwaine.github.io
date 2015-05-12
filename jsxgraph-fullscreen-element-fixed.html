@@ -1,0 +1,120 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<title>JSXGraph getOffset incorrect inside fullscreen element</title>
+
+<link rel="stylesheet" type="text/css" href="/css/jsxgraph.css" />
+<script type="text/javascript" src="/js/jsxgraphcore-0.99.0.js"></script>
+<style>
+
+.status {
+	padding: 5px;
+	color: white;
+	border-radius: 4px;
+}
+
+.fixed {
+	background: green;
+}
+
+.broken {
+	background: red;
+}
+
+#offset {
+    padding: 2em 0 0 4em;
+    border: 1px solid #ccc;
+}
+
+#container {
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#box {
+    border: 1px solid black;
+    width:300px; height:300px;
+    margin-bottom: 5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>JSXGraph getOffset incorrect inside fullscreen element <small class="status fixed">Fixed in v0.99.0</small></h1>
+
+<h2>Steps to verify fix:</h2>
+<ul>
+<li>Verify that clicking on the graph below creates a point at the click location.</li>
+<li>Click the button to go fullscreen.</li>
+<li>Clicking on the graph should still create a point at the click location.</li>
+</ul>
+
+<a href="jsxgraph-fullscreen-element-broken.html">Demonstration with broken version</a>
+
+<div id="offset">
+	<div id="container" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen="true">
+		<div id="box"></div>
+		<button id="fullscreen-button">Fullscreen mode on #container</button>
+	</div>
+</div>
+
+
+</body>
+<script type="text/javascript">
+
+board = JXG.JSXGraph.initBoard('box', { boundingbox: [-10, 10, 10, -10] , axis: true} );
+
+// Add point on click: http://jsxgraph.uni-bayreuth.de/wiki/index.php/Browser_event_and_coordinates
+var getMouseCoords = function(e, i) {
+        var cPos = board.getCoordsTopLeftCorner(e, i),
+            absPos = JXG.getPosition(e, i),
+            dx = absPos[0]-cPos[0],
+            dy = absPos[1]-cPos[1];
+ 
+        return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board);
+    },
+    down = function(e) {
+        var canCreate = true, i, coords, el;
+ 
+        if (e[JXG.touchProperty]) {
+            // index of the finger that is used to extract the coordinates
+            i = 0;
+        }
+        coords = getMouseCoords(e, i);
+ 
+        for (el in board.objects) {
+            if(JXG.isPoint(board.objects[el]) && board.objects[el].hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
+                canCreate = false;
+                break;
+            }
+        }
+ 
+        if (canCreate) {
+            board.create('point', [coords.usrCoords[1], coords.usrCoords[2]]);
+        }
+    };
+
+board.on('down', down);
+
+document.getElementById('fullscreen-button').addEventListener('click', function() {
+	launchIntoFullscreen(document.getElementById('container'));
+}, false);
+
+function launchIntoFullscreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if(element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();
+  } else if(element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  } else if(element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  }
+}
+
+</script>
+</html>
