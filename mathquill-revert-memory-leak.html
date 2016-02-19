@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mathquill memory leak during revert</title>
+
+<link href="css/mathquill-master-3981b19.css" rel="stylesheet">
+
+</head>
+<body>
+
+<button class="render">Render</button>
+<button class="revert">Revert</button>
+<br>
+<div class="mathquill-embedded-latex math" style="background: #eee;padding:20px;">x</div>
+
+<h2>Steps to reproduce</h2>
+<ul>
+<li>In chrome, open the dev tools "timelines" panel. Tick the box to capture memory usage.</li>
+<li>Clean up garbage (trash can button) and start recording</li>
+<li>Render the math, then revert it</li>
+<li>Clean up garbage again and stop recording</li>
+</ul>
+
+<h2>Expected result</h2>
+<ul>
+<li>The number of DOM nodes in memory (green line) should be the same before rendering and after reverting.</li>
+</ul>
+
+<h2>Actual result</h2>
+<ul>
+<li>
+The number of DOM nodes in memory increases. They were created during render but not cleaned up during revert.<br>
+<img src="img/mathquill-memory-leak.png">
+</li>
+</ul>
+
+<p>
+N.B. Make sure jQuery version v1.11.2 or later is used, otherwise a <a href="https://github.com/jquery/sizzle/issues/299">memory leak issue</a> from jQuery itself (sizzle) comes into play.
+</p>
+
+<script src="http://code.jquery.com/jquery-1.12.0.js"></script>
+<script src="js/mathquill-master-3981b19.js"></script>
+<script>
+
+var MQ = MathQuill.getInterface(2);
+
+$('.render').on('click', function () {
+    var mq = MQ.MathField($('.math')[0]);
+
+    $('.revert').off('click').one('click', function () {
+	    mq.revert();
+	});
+});
+
+</script>
+</body>
+</html>
