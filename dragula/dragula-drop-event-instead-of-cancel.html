@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dragula bug report: Drop event fired instead of cancel when copy:true</title>
+<link href="dragula.css" rel="stylesheet">
+<style>
+    .row { border: 1px solid grey; min-height: 2em; margin: 2px; }
+    .draggable { background: blue; color: white; padding: 0.5em; display:inline-block; }
+</style>
+</head>
+
+<body>
+
+<h1>Dragula bug report: Drop event fired instead of cancel</h1>
+
+<div class="example copy-true">
+    <h2>Dragula instance with copy:true (broken)</h2>
+    <div class="zone row">
+        <div class="draggable">Drag me</div>
+    </div>
+    <div class="zone row">I'm a drop zone - dropping here should fire a 'drop' event.</div>
+
+    <div class="row">
+    I'm not a dropzone - dropping here should fire a 'cancel' event.
+    </div>
+</div>
+
+<p>
+Also, open the devtools console to see the arguments the drop handler is called with.
+</p>
+
+<div class="example copy-false">
+    <h2>Dragula instance with copy:false (working)</h2>
+    <div class="zone row">
+        <div class="draggable">Drag me</div>
+    </div>
+    <div class="zone row">I'm a drop zone - dropping here should fire a 'drop' event.</div>
+
+    <div class="row">
+    I'm not a dropzone - dropping here should fire a 'cancel' event.
+    </div>
+</div>
+
+
+
+<script src="dragula.js"></script>
+<script>
+
+var containers1 = [].slice.call(document.body.querySelectorAll('.copy-true .zone'));
+var drake1 = dragula(containers1, {
+    copy: true
+});
+
+var containers2 = [].slice.call(document.body.querySelectorAll('.copy-false .zone'));
+var drake2 = dragula(containers2, {
+    copy: false
+});
+
+drake1.on('drop', onDrop);
+drake1.on('cancel', onCancel);
+
+drake2.on('drop', onDrop);
+drake2.on('cancel', onCancel);
+
+function onDrop () {
+    alert('drop event');
+    console.log('drop handler arguments', arguments);
+}
+
+function onCancel () {
+    alert('cancel event');
+}
+
+</script>
+</html>
