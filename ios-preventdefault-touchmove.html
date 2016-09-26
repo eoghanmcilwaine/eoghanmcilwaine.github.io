@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>iOS touchmove preventDefault</title>
+<style>
+
+body {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px);
+}
+
+.target {
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	padding: 3em;
+	background: green;
+}
+
+</style>
+</head>
+
+<body>
+
+<div style="width:10px;height:5000px;background:red;">
+<div style="height:10px;width:5000px;background:red;">
+
+<h1>iOS touchmove preventDefault behaviour</h1>
+<p>
+TOUCH DEVICE TEST ONLY. Drag the green rectangle and observe whether the page scrolls.
+<br>
+preventDefault() is called on the rectangle's touchmove event. Drag works as expected on iOS 9
+but on iOS 10 (in safari, chrome, firefox) the page itself scrolls, interfering with drag.
+</p>
+<div class="target">Drag me upwards</div>
+
+<script>
+
+// Simple drag implementation
+target = document.documentElement.querySelector('.target');
+
+function onDrag(e) {
+	target.style.left = e.touches[0].pageX - 100 + 'px';
+	target.style.top = e.touches[0].pageY - 50 + 'px';
+	e.preventDefault();
+}
+
+function stopDrag() {
+	target.removeEventListener('touchmove', onDrag);
+	target.removeEventListener('touchend', stopDrag);
+}
+
+target.addEventListener('touchstart', function () {
+	target.addEventListener('touchmove', onDrag);
+	target.addEventListener('touchend', stopDrag);
+});
+
+</script>
+</html>
