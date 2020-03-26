@@ -215,16 +215,18 @@ function processJson(json, output = []) {
 
 function download(output) {
   const csvStr = Papa.unparse(output);
+  const dateStart = document.getElementById('date-range-start').value;
+  const dateEnd = document.getElementById('date-range-end').value;
 
   document.getElementById('output').innerHTML = csvStr;
 
   const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvStr);
-  var link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "my_data.csv");
+  var link = document.createElement('a');
+  link.setAttribute('href', encodedUri);
+  link.setAttribute('download', `Locations_${dateStart}_to_${dateEnd}.csv`);
   document.body.appendChild(link); // Required for FF
 
-  link.click(); // This will download the data file named "my_data.csv".
+  link.click();
 }
 
 
