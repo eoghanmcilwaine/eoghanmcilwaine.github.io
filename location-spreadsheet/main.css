@@ -1,0 +1,10 @@
+#filedrop {
+  height: 8em;
+  background: rgb(155, 236, 247);
+  padding: 1em;
+  margin-top: 1em;
+}
+
+#filedrop.over {
+  background: rgb(3, 125, 141);
+}

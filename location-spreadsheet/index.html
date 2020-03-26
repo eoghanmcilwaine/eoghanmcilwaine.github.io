@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<title>Google Semantic Location History to Spreadsheet</title>
+<link rel="stylesheet" href="flatpickr.min.css">
+<link rel="stylesheet" href="main.css">
+</head>
+<body>
+<h1>Google Semantic Location History to Spreadsheet</h1>
+
+<fieldset>
+  <legend>Date range</legend>
+  <label for="date-start">
+    Start
+    <input type="text" id="date-range-start">
+  </label>
+  <label for="date-end">
+    End
+    <input type="text" id="date-range-end">
+  </label>
+  <label for="timezone">
+    Timezone
+    <input type="text" id="timezone" value="Europe/Dublin">
+  </label>
+</fieldset>
+
+<p>Drop file here</p>
+<small>To begin the conversion, drag and drop a Google Location History file (zip) in this area.</small>
+<div id="filedrop">
+</div>
+
+<label for="date-end">
+  Path inside zip file
+  <input id="path-in-zip" value="Location History/Semantic Location History/">
+</label>
+
+<pre id="output">Waiting for input</pre>
+<!-- <script src="papaparse.js"></script>
+<script src="moment-with-locales.min.js"></script> -->
+<script type="module" src="dist/index.bundle.js"></script>
+</body>
+</html>
