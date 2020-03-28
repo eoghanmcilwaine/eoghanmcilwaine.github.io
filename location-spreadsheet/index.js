@@ -5,14 +5,33 @@ import * as Papa from 'papaparse';
 import tzlookup from 'tz-lookup';
 import flatpickr from "flatpickr";
 import unzip from 'unzip-js';
-import httpsRedirect from './js/https-redirect';
+import Analytics from 'analytics'
+import googleAnalytics from '@analytics/google-analytics'
 
+import httpsRedirect from './js/https-redirect';
 
 httpsRedirect({
   href: window.location.href,
   exclude: 'localhost',
   enact: url => window.location = url,
 });
+
+const gaProps = {
+  category: 'Tools',
+  label: 'Location history converter'
+};
+
+const analytics = Analytics({
+  app: 'eoghanmcilwaine.github.io',
+  plugins: [
+    googleAnalytics({
+      trackingId: 'UA-58644178-2'
+    })
+  ]
+});
+
+/* Track a page view */
+analytics.page();
 
 // activitySegment
 // placeVisit
@@ -87,7 +106,10 @@ const concatTyped = arrays => {
 };
 
 const processInnerFile = (zipFile, entry, resolve, reject) => {
-  console.log(entry.name);
+  analytics.track('processInnerFile', {
+    ...gaProps,
+    value: entry.name
+  });
 
   zipFile.readEntryData(entry, false, function (err, readStream) {
     const arrays = [];
@@ -151,6 +173,11 @@ const processFiles = files => {
     });
 
     download(output);
+  });
+
+  analytics.track('droppedFiles', {
+    ...gaProps,
+    value: JSON.stringify(files.map(file => file.name))
   });
 };
 
@@ -224,16 +251,21 @@ function download(output) {
   const csvStr = Papa.unparse(output);
   const dateStart = document.getElementById('date-range-start').value;
   const dateEnd = document.getElementById('date-range-end').value;
+  const outputName = `Locations_${dateStart}_to_${dateEnd}.csv`;
 
   document.getElementById('output').innerHTML = csvStr;
 
   const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvStr);
   var link = document.createElement('a');
   link.setAttribute('href', encodedUri);
-  link.setAttribute('download', `Locations_${dateStart}_to_${dateEnd}.csv`);
+  link.setAttribute('download', outputName);
   document.body.appendChild(link); // Required for FF
-
   link.click();
+
+  analytics.track('downloadResult', {
+    ...gaProps,
+    value: outputName
+  });
 }
 
 
