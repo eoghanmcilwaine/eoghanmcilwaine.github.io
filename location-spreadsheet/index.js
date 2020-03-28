@@ -5,7 +5,14 @@ import * as Papa from 'papaparse';
 import tzlookup from 'tz-lookup';
 import flatpickr from "flatpickr";
 import unzip from 'unzip-js';
+import httpsRedirect from './js/https-redirect';
 
+
+httpsRedirect({
+  href: window.location.href,
+  exclude: 'localhost',
+  enact: url => window.location = url,
+});
 
 // activitySegment
 // placeVisit
